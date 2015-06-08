@@ -73,3 +73,45 @@ $app->get('/gzip', function(Request $request)  {
 
         return $gzip;
 });
+
+$app->get('/deflate', function(Request $request)  {
+
+    $data = getHeaders($request);
+    $data['deflated'] = true;
+    $data['method'] = 'GET';
+    $data = array_merge($data, getOrigin($request));
+
+    $deflate = gzdeflate(json_encode($data));
+
+    header('Content-Encoding: deflate');
+    header('Content-Type: text/json');
+    header('Content-Length: ' . strlen($deflate));
+
+    return $deflate;
+});
+
+$ASCII_ART = <<<ASCII_ART
+    -=[ teapot ]=-
+
+       _...._
+     .'  _ _ `.
+    | ."` ^ `". _,
+    \_;`"---"`|//
+      |       ;/
+      \_     _/
+        `\"\"\"`
+ASCII_ART;
+
+
+$app->get('/status/{code}', function(Request $request, $code) use ($ASCII_ART) {
+
+    switch ($code) {
+        case 418:
+            return response($ASCII_ART, $code)->header('Content-Type', 'text/plain');
+
+
+    }
+
+    return response('', $code);
+});
+

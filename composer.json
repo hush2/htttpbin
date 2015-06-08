@@ -7,7 +7,6 @@
     "require": {
         "laravel/lumen-framework": "5.0.*",
         "vlucas/phpdotenv": "~1.0",
-        "guzzlehttp/guzzle": "~6.0"
     },
     
     "require-dev": {

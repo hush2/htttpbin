@@ -31,7 +31,10 @@
         <li>/patch </li>
         <li>/put </li>
         <li>/delete </li>
-        <li><a href='/encoding/utf8'>/encoding/utf8</a> returns a page containing UTF-8 data</li>
+        <li><a href='/encoding/utf8'>/encoding/utf8</a> returns a page containing utf-8 data</li>
+        <li><a href='/gzip'>/gzip</a> returns gzip encoded data</li>
+        <li><a href='/deflate'>/deflate</a> returns deflate encoded data</li>
+        <li><a href='/status/418'>/status/:code</a> returns given http status code</li>
 
 
     </ul>
