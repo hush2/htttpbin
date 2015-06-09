@@ -8,7 +8,7 @@ function getHeaders($request)
         $headers[$k] = $v[0];
     }
     ksort($headers);
-    return ['headers' => $headers];
+    return $headers;
 }
 
 function getRemoteIp($request)
@@ -22,5 +22,21 @@ function getRemoteIp($request)
     } else {
         $ip = $request->server->get('REMOTE_ADDR');
     }
-    return ['origin' => $ip];
+    return $ip;
+}
+
+
+function getQuery($request) {
+    return $request->query->all();
+}
+
+
+function getDefaultResponse($request) {
+
+    $data['origin'] = getRemoteIp($request);
+    $data['url'] = $request->fullUrl();
+    $data['query'] = getQuery($request);
+    $data['headers'] = getHeaders($request);
+
+    return $data;
 }

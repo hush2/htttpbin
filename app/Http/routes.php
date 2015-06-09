@@ -2,12 +2,12 @@
 use Illuminate\Http\Request;
 
 
-$app->get('/', function () {
+$app->get('/', ['as'=>'root', function () {
     return view('index');
-});
+}]);
 
 $app->get('/ip', function (Request $request) {
-    return getRemoteIp($request);
+    return ['origin' => getRemoteIp($request)];
 });
 
 $app->get('/user-agent', function (Request $request) {
@@ -19,52 +19,56 @@ $app->get('/headers', function (Request $request) {
 });
 
 $app->get('/get', function (Request $request) {
-    $data = [];
-    $data['query'] = $request->query->all();
-    $data['headers'] = getHeaders($request);
-    $data['origin'] = getRemoteIp($request);
-    $data['url'] = $request->fullUrl();
-    return $data;
+    return getDefaultResponse($request);
+});
+
+$app->get('/post', function () {
+    return view('form');
+});
+
+$app->post('/post', function (Request $request) {
+
+    $data = getDefaultResponse($request);
+    $data['post'] = $request->request->all();   // $_POST data;
+    // Todo: add file
+    return response($data);
 });
 
 $app->get('/encoding/utf8', function () {
-    //header('Content-Type: text/html; charset=utf-8');
-    return file_get_contents(base_path() . '/public/utf-8-demo.txt');
+    $text = file_get_contents(base_path() . '/public/utf-8-demo.txt');
+    return response($text);
 });
 
 $app->get('/gzip', function (Request $request) {
 
-    $data = getHeaders($request);
-
-    $data['gzipped'] = true;
-    $data['method'] = 'GET';
-    $data = array_merge($data, getRemoteIp($request));
+    $data = getDefaultResponse($request);
+    $data['gzipped'] = 'true';
 
     $gzip = gzencode(json_encode($data));
 
-    header('Content-Encoding: gzip');
-    header('Content-Type: application/json');
-    header('Content-Length: ' . strlen($gzip));
-
-    return $gzip;
+    return response($gzip)
+            ->header('Content-Encoding', 'gzip')
+            ->header('Content-Type', 'application/json')
+            ->header('Content-Length', strlen($gzip));
 });
 
 $app->get('/deflate', function (Request $request) {
 
-    $data = getHeaders($request);
-    $data['deflated'] = true;
-    $data['method'] = 'GET';
-    $data = array_merge($data, getRemoteIp($request));
+    $data = getDefaultResponse($request);
+    $data['deflated'] = 'true';
 
     $deflate = gzdeflate(json_encode($data));
 
-    header('Content-Encoding: deflate');
-    header('Content-Type: application/json');
-    header('Content-Length: ' . strlen($deflate));
-
-    return $deflate;
+    return response($deflate)
+        ->header('Content-Encoding', 'deflate')
+        ->header('Content-Type', 'application/json')
+        ->header('Content-Length', strlen($deflate));
 });
 
+
+$app->get('/test', function() {
+    return redirect('/');
+});
 
 $app->get('/status/{code}', function (Request $request, $code) {
 
@@ -82,11 +86,20 @@ ASCII_ART;
 
     switch ($code) {
         case 418:
-            return response($ascii_art, $code)->header('Content-Type', 'text/plain');
-        default:
-            $code = 200;
+            return response($ascii_art, $code)
+                ->header('Content-Type', 'text/plain');
+        case 301:
+        case 302:
+        case 303:
+        case 305:
+        case 307:
+            // if error, set cache/session driver to array in .env
+            return redirect('/redirect/1', $code);
     }
-
     return response('', $code);
 });
 
+
+$app->get('/redirect/{code}', function(Request $request, $code) {
+    return getDefaultResponse($request);
+});
