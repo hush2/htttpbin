@@ -15,7 +15,6 @@
             line-height: 2em;
             color: #333;
         }
-
         h1 {
             color: #111;
         }
@@ -42,12 +41,8 @@
         <li><a href='/gzip'>/gzip</a> returns gzip encoded data</li>
         <li><a href='/deflate'>/deflate</a> returns deflate encoded data</li>
         <li><a href='/status/418'>/status/:code</a> returns given http status code</li>
-
-
     </ul>
-
 </div>
-
 
 </body>
 </html>
