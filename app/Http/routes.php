@@ -2,16 +2,6 @@
 use Illuminate\Http\Request;
 
 
-function getHeaders($request) {
-    $all = $request->headers->all();
-    $headers = [];
-    foreach ($all as $k => $v) {
-        $headers[$k] = $v[0];
-    }
-    ksort($headers);
-    return ['headers' => $headers];
-}
-
 function getOrigin($request) {
     return ['origin' => $request->server->get('REMOTE_ADDR')];
 }
@@ -61,14 +51,16 @@ $app->get('/encoding/utf8', function()  {
 $app->get('/gzip', function(Request $request)  {
 
         $data = getHeaders($request);
+
         $data['gzipped'] = true;
         $data['method'] = 'GET';
         $data = array_merge($data, getOrigin($request));
 
+
         $gzip = gzencode(json_encode($data));
 
         header('Content-Encoding: gzip');
-        header('Content-Type: text/json');
+        header('Content-Type: application/json');
         header('Content-Length: ' . strlen($gzip));
 
         return $gzip;

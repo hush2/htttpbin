@@ -6,13 +6,20 @@
     <style>
         body {
             font-family: monospace;
+            padding-left: 100px;
         }
         ul {
             list-style-type: none;
         }
         li {
             line-height: 2em;
+            color: #333;
         }
+
+        h1 {
+            color: #111;
+        }
+
     </style>
 </head>
 <body>
