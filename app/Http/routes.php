@@ -7,19 +7,19 @@ $app->get('/', ['as'=>'root', function () {
 }]);
 
 $app->get('/ip', function (Request $request) {
-    return ['origin' => getRemoteIp($request)];
+    return to_json(['origin' => getRemoteIp($request)]);
 });
 
 $app->get('/user-agent', function (Request $request) {
-    return ['user-agent' => $request->header('user-agent')];
+    return to_json(['user-agent' => $request->header('user-agent')]);
 });
 
 $app->get('/headers', function (Request $request) {
-    return getHeaders($request);
+    return to_json(getHeaders($request));
 });
 
 $app->get('/get', function (Request $request) {
-    return getDefaultResponse($request);
+    return to_json(getDefaultResponse($request));
 });
 
 $app->get('/post', function () {
@@ -31,7 +31,7 @@ $app->post('/post', function (Request $request) {
     $data = getDefaultResponse($request);
     $data['post'] = $request->request->all();   // $_POST data;
     // Todo: add file
-    return response($data);
+    return to_json($data);
 });
 
 $app->get('/encoding/utf8', function () {
@@ -44,7 +44,7 @@ $app->get('/gzip', function (Request $request) {
     $data = getDefaultResponse($request);
     $data['gzipped'] = 'true';
 
-    $gzip = gzencode(json_encode($data));
+    $gzip = gzencode(json_encode($data, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
 
     return response($gzip)
             ->header('Content-Encoding', 'gzip')
@@ -57,7 +57,7 @@ $app->get('/deflate', function (Request $request) {
     $data = getDefaultResponse($request);
     $data['deflated'] = 'true';
 
-    $deflate = gzdeflate(json_encode($data));
+    $deflate = gzdeflate(json_encode($data, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
 
     return response($deflate)
         ->header('Content-Encoding', 'deflate')
@@ -93,7 +93,7 @@ ASCII_ART;
         case 303:
         case 305:
         case 307:
-            // if error, set cache/session driver to array in .env
+            // if error, set cache/session driver to 'file' in .env
             return redirect('/redirect/1', $code);
     }
     return response('', $code);
@@ -101,5 +101,5 @@ ASCII_ART;
 
 
 $app->get('/redirect/{code}', function(Request $request, $code) {
-    return getDefaultResponse($request);
+    return to_json(getDefaultResponse($request));
 });

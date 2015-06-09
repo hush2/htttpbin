@@ -1,5 +1,10 @@
 <?php
 
+function to_json(array $data) {
+    $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    return response($json)->header('Content-Type', 'application/json');
+}
+
 function getHeaders($request)
 {
     $all = $request->headers->all();
