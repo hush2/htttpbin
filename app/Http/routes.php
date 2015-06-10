@@ -1,6 +1,6 @@
 <?php
 use Illuminate\Http\Request;
-
+use Illuminate\Http\Response;
 
 $app->get('/', ['as'=>'root', function () {
     return view('index');
@@ -15,15 +15,21 @@ $app->get('/user-agent', function (Request $request) {
 });
 
 $app->get('/headers', function (Request $request) {
+
     return to_json(getHeaders($request));
+
 });
 
 $app->get('/get', function (Request $request) {
+
     return to_json(getDefaultResponse($request));
+
 });
 
 $app->get('/post', function () {
+
     return view('form');
+
 });
 
 $app->post('/post', function (Request $request) {
@@ -32,11 +38,14 @@ $app->post('/post', function (Request $request) {
     $data['post'] = $request->request->all();   // $_POST data;
     // Todo: add file
     return to_json($data);
+
 });
 
 $app->get('/encoding/utf8', function () {
+
     $text = file_get_contents(base_path() . '/public/utf-8-demo.txt');
     return response($text);
+
 });
 
 $app->get('/gzip', function (Request $request) {
@@ -86,8 +95,7 @@ ASCII_ART;
 
     switch ($code) {
         case 418:
-            return response($ascii_art, $code)
-                ->header('Content-Type', 'text/plain');
+            return response($ascii_art, $code)->header('Content-Type', 'text/plain');
         case 301:
         case 302:
         case 303:
@@ -103,3 +111,27 @@ ASCII_ART;
 $app->get('/redirect/{code}', function(Request $request, $code) {
     return to_json(getDefaultResponse($request));
 });
+
+$app->get('/response-headers', function(Request $request) {
+
+    header_remove("X-Powered-By");
+
+    $data = [];
+    $response = new Response();
+
+    foreach (getQuery($request) as $key => $value) {
+        $response->headers->set($key, $value);
+        $data[$key] = $value;
+    }
+
+    if (!isset($data['Content-Type'])) {
+        $response->header('Content-Type', 'application/json');
+    }
+
+    $data = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    $response->setContent($data);
+
+    return $response;
+
+});
+

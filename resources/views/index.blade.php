@@ -40,6 +40,7 @@
         <li><a href='/gzip'>/gzip</a> returns gzip encoded data</li>
         <li><a href='/deflate'>/deflate</a> returns deflate encoded data</li>
         <li><a href='/status/418'>/status/:code</a> returns given http status code</li>
+        <li><a href='/response-headers?Content-Type=text/plain;%20charset=UTF-8&X-Powered-By=httpbin;'>/response-headers?key=val</a> returns give response header</li>
     </ul>
 </div>
 
