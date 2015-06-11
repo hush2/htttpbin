@@ -40,7 +40,11 @@
         <li><a href='/gzip'>/gzip</a> returns gzip encoded data</li>
         <li><a href='/deflate'>/deflate</a> returns deflate encoded data</li>
         <li><a href='/status/418'>/status/:code</a> returns given http status code</li>
-        <li><a href='/response-headers?Content-Type=text/plain;%20charset=UTF-8&X-Powered-By=httpbin;'>/response-headers?key=val</a> returns give response header</li>
+        <li><a href='/response-headers?Content-Type=text/plain;%20charset=UTF-8&X-Powered-By=httpbin;'>/response-headers?key=val</a> returns given response header</li>
+        <li><a href='/redirect/6'>/redirect/:n</a> 302 redirect <i>n</i> times</li>
+        <li><a href='/redirect-to?url=http://example.com'>/redirect-to?url=foo</a> 302 redirects to the <i>foo</i> url</li>
+        <li><a href='/relative-redirect/6'>/relative-redirect/:n</a> 302 relative redirect <i>n</i> times</li>
+        <li><a href='/absolute-redirect/6'>/absolute-redirect/:n</a> 302 absolute redirect <i>n</i> times</li>
     </ul>
 </div>
 

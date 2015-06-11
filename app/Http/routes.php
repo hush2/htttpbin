@@ -1,35 +1,36 @@
 <?php
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 $app->get('/', ['as'=>'root', function () {
+
     return view('index');
 }]);
 
 $app->get('/ip', function (Request $request) {
+
     return to_json(['origin' => getRemoteIp($request)]);
 });
 
 $app->get('/user-agent', function (Request $request) {
+
     return to_json(['user-agent' => $request->header('user-agent')]);
 });
 
 $app->get('/headers', function (Request $request) {
 
     return to_json(getHeaders($request));
-
 });
 
 $app->get('/get', function (Request $request) {
 
     return to_json(getDefaultResponse($request));
-
 });
 
 $app->get('/post', function () {
 
     return view('form');
-
 });
 
 $app->post('/post', function (Request $request) {
@@ -53,7 +54,7 @@ $app->get('/gzip', function (Request $request) {
     $data = getDefaultResponse($request);
     $data['gzipped'] = 'true';
 
-    $gzip = gzencode(json_encode($data, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
+    $gzip = gzencode(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
     return response($gzip)
             ->header('Content-Encoding', 'gzip')
@@ -66,7 +67,7 @@ $app->get('/deflate', function (Request $request) {
     $data = getDefaultResponse($request);
     $data['deflated'] = 'true';
 
-    $deflate = gzdeflate(json_encode($data, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
+    $deflate = gzdeflate(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
     return response($deflate)
         ->header('Content-Encoding', 'deflate')
@@ -74,12 +75,7 @@ $app->get('/deflate', function (Request $request) {
         ->header('Content-Length', strlen($deflate));
 });
 
-
-$app->get('/test', function() {
-    return redirect('/');
-});
-
-$app->get('/status/{code}', function (Request $request, $code) {
+$app->get('/status/{code}', function ($code) {
 
     $ascii_art = <<<ASCII_ART
     -=[ teapot ]=-
@@ -104,12 +100,7 @@ ASCII_ART;
             // if error, set cache/session driver to 'file' in .env
             return redirect('/redirect/1', $code);
     }
-    return response('', $code);
-});
-
-
-$app->get('/redirect/{code}', function(Request $request, $code) {
-    return to_json(getDefaultResponse($request));
+    return response(null, $code);
 });
 
 $app->get('/response-headers', function(Request $request) {
@@ -134,4 +125,9 @@ $app->get('/response-headers', function(Request $request) {
     return $response;
 
 });
+
+$app->get('/redirect/{n}', 'App\Http\Controllers\RedirectController@redirect');
+$app->get('/redirect-to', 'App\Http\Controllers\RedirectController@to');
+$app->get('/relative-redirect/{n}', 'App\Http\Controllers\RedirectController@relative');
+$app->get('/absolute-redirect/{n}', 'App\Http\Controllers\RedirectController@absolute');
 

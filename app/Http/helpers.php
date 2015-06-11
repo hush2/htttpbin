@@ -21,20 +21,18 @@ function getRemoteIp($request)
     $server = $request->server;
 
     if ($server->has('HTTP_CLIENT_IP')) {
-        $ip = $request->server->get('HTTP_CLIENT_IP');
+        $ip = $server->get('HTTP_CLIENT_IP');
     } elseif ($server->has('HTTP_X_FORWARDED_FOR')) {
-        $ip = $request->server->get('HTTP_X_FORWARDED_FOR');
+        $ip = $server->get('HTTP_X_FORWARDED_FOR');
     } else {
-        $ip = $request->server->get('REMOTE_ADDR');
+        $ip = $server->get('REMOTE_ADDR');
     }
     return $ip;
 }
 
-
 function getQuery($request) {
     return $request->query->all();
 }
-
 
 function getDefaultResponse($request) {
 

@@ -1,27 +1,29 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Post Test</title>
-    <style>
-
-    </style>
 </head>
 <body>
-
-<form action="/post?field1=value1&field2=value2" method="post">
-
-    <p><input type="text" name="text1" value="Text Value 1"/></p>
-    <p><input type="text" name="text2" value="Text Value 2"/></p>
-    <p>
-    <input type="radio" name="group1" value="Radio 1"> Radio 1
-    <input type="radio" name="group1" value="Radio 2"> Radio 2
-    <input type="radio" name="group1" value="Radio 3" checked> Radio 3
-    </p>
-    <input type="submit" value="Submit"/>
-
+<!-- Example form from HTML5 spec http://www.w3.org/TR/html5/forms.html#writing-a-form's-user-interface -->
+<form method="post" action="/post">
+    <p><label>Customer name: <input name="custname"></label></p>
+    <p><label>Telephone: <input type=tel name="custtel"></label></p>
+    <p><label>E-mail address: <input type=email name="custemail"></label></p>
+    <fieldset>
+        <legend> Pizza Size </legend>
+        <p><label> <input type=radio name=size value="small"> Small </label></p>
+        <p><label> <input type=radio name=size value="medium"> Medium </label></p>
+        <p><label> <input type=radio name=size value="large"> Large </label></p>
+    </fieldset>
+    <fieldset>
+        <legend> Pizza Toppings </legend>
+        <p><label> <input type=checkbox name="topping[]" value="bacon"> Bacon </label></p>
+        <p><label> <input type=checkbox name="topping[]" value="cheese"> Extra Cheese </label></p>
+        <p><label> <input type=checkbox name="topping[]" value="onion"> Onion </label></p>
+        <p><label> <input type=checkbox name="topping[]" value="mushroom"> Mushroom </label></p>
+    </fieldset>
+    <p><label>Preferred delivery time: <input type=time min="11:00" max="21:00" step="900" name="delivery"></label></p>
+    <p><label>Delivery instructions: <textarea name="comments"></textarea></label></p>
+    <p><button>Submit order</button></p>
 </form>
-
-
 </body>
 </html>
