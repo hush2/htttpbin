@@ -126,8 +126,8 @@ $app->get('/response-headers', function(Request $request) {
 
 });
 
-$app->get('/redirect/{n}', 'App\Http\Controllers\RedirectController@redirect');
-$app->get('/redirect-to', 'App\Http\Controllers\RedirectController@to');
+$app->get('/redirect/{n}',          'App\Http\Controllers\RedirectController@redirect');
+$app->get('/redirect-to',           'App\Http\Controllers\RedirectController@to');
 $app->get('/relative-redirect/{n}', 'App\Http\Controllers\RedirectController@relative');
 $app->get('/absolute-redirect/{n}', 'App\Http\Controllers\RedirectController@absolute');
 

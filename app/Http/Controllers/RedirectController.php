@@ -16,7 +16,6 @@ class RedirectController extends Controller
         return redirect($request->get('url'));
     }
 
-
     public function relative($n) {
 
         if ($n > 0) {
