@@ -46,8 +46,8 @@
         <li><a href='/relative-redirect/6'>/relative-redirect/:n</a> 302 relative redirect <i>n</i> times</li>
         <li><a href='/absolute-redirect/6'>/absolute-redirect/:n</a> 302 absolute redirect <i>n</i> times</li>
         <li><a href='/cookies/'>/cookies</a> returns cookie data</li>
-        <li><a href='/cookies/set?cookie=oreo'>/cookies/set?cookie=oreo</a> sets one or more cookie data</li>
-        <li><a href='/cookies/delete?cookie=oreo'>/cookies/delete?cookie=oreo</a> deletes one or more cookie data</li>
+        <li><a href='/cookies/set?httpbin=oreo'>/cookies/set?httpbin=oreo</a> sets one or more cookie data</li>
+        <li><a href='/cookies/delete?httpbin=oreo'>/cookies/delete?httpbin=oreo</a> deletes one or more cookie data</li>
     </ul>
 </div>
 

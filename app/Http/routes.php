@@ -131,7 +131,6 @@ $app->get('/redirect-to',           'App\Http\Controllers\RedirectController@to'
 $app->get('/relative-redirect/{n}', 'App\Http\Controllers\RedirectController@relative');
 $app->get('/absolute-redirect/{n}', 'App\Http\Controllers\RedirectController@absolute');
 
-
 $app->get('/cookies', function(Request $request) {
     $cookies = $request->cookies->all();
     return to_json($cookies);
@@ -144,12 +143,8 @@ $app->get('/cookies/set', function(Request $request) {
     foreach ($query as $k => $v) {
         $response->withCookie(cookie($k, $v));
     }
-    $data = json_encode($query, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    $response->setContent($data);
-    $response->header('Content-Type', 'application/json');
-    return $response;
-
-
+    $cookies = array_merge($request->cookies->all(), $query);
+    return to_json($cookies, $response);
 });
 
 $app->get('/cookies/delete', function(Request $request) {
@@ -158,12 +153,8 @@ $app->get('/cookies/delete', function(Request $request) {
     $query = getQuery($request);
     foreach ($query as $k => $v) {
         $response->withCookie(cookie($k, null));    // delete cookie
+        $request->cookies->remove($k);
     }
-    $data = json_encode($request->cookies->all(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    $response->setContent($data);;
-    $response->header('Content-Type', 'application/json');
-    return $response;
-
-
+    return to_json($request->cookies->all(), $response);
 });
 

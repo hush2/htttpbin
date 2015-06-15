@@ -1,8 +1,13 @@
 <?php
 
-function to_json(array $data) {
+function to_json(array $data, $response = null) {
     $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    return response($json)->header('Content-Type', 'application/json');
+    if ($response == null) {
+        $response = response($json);
+     } else {
+        $response->setContent($data);
+    }
+    return $response->header('Content-Type', 'application/json');
 }
 
 function getHeaders($request)
