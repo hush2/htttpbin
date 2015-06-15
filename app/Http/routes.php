@@ -133,7 +133,7 @@ $app->get('/absolute-redirect/{n}', 'App\Http\Controllers\RedirectController@abs
 
 $app->get('/cookies', function(Request $request) {
     $cookies = $request->cookies->all();
-    return to_json($cookies);
+    return to_json(['cookies' => $cookies]);
 });
 
 $app->get('/cookies/set', function(Request $request) {
@@ -144,7 +144,7 @@ $app->get('/cookies/set', function(Request $request) {
         $response->withCookie(cookie($k, $v));
     }
     $cookies = array_merge($request->cookies->all(), $query);
-    return to_json($cookies, $response);
+    return to_json(['cookies' => $cookies], $response);
 });
 
 $app->get('/cookies/delete', function(Request $request) {
@@ -155,6 +155,6 @@ $app->get('/cookies/delete', function(Request $request) {
         $response->withCookie(cookie($k, null));    // delete cookie
         $request->cookies->remove($k);
     }
-    return to_json($request->cookies->all(), $response);
+    return to_json(['cookies' => $request->cookies->all()], $response);
 });
 
