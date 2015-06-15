@@ -48,6 +48,7 @@
         <li><a href='/cookies/'>/cookies</a> returns cookie data</li>
         <li><a href='/cookies/set?httpbin=oreo'>/cookies/set?httpbin=oreo</a> sets one or more cookie data</li>
         <li><a href='/cookies/delete?httpbin=oreo'>/cookies/delete?httpbin=oreo</a> deletes one or more cookie data</li>
+        <li><a href='/basic-auth/user/pass'>/basic-auth/:user/:pass</a> http basic auth</li>
     </ul>
 </div>
 

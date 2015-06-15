@@ -158,3 +158,14 @@ $app->get('/cookies/delete', function(Request $request) {
     return to_json(['cookies' => $request->cookies->all()], $response);
 });
 
+$app->get('/basic-auth/{user}/{pass}', function(Request $request, $user, $pass)
+{
+    $basic = $request->header('Authorization');
+
+    if ($basic === 'Basic '.base64_encode("$user:$pass")) {
+        return to_json(['authenticated' => true, 'user' => $user]);
+    }
+
+    return response(null, 401)
+        ->header('WWW-Authenticate', 'Basic realm="Fake Realm"');
+});

@@ -1,6 +1,7 @@
 <?php namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Response;
 
 class CorsMiddleware
 {
@@ -10,7 +11,12 @@ class CorsMiddleware
     {
         $response = $next($request);
 
+//        if (gettype($response) == 'string') {
+//            $response = new Response($response);
+//        }
+
         $response->header('Access-Control-Allow-Origin', $request->header('Origin', '*'));
+
         $response->header('Access-Control-Allow-Credentials', 'true');
 
         if ($request->has('Origin')) {
@@ -23,6 +29,7 @@ class CorsMiddleware
                 $response->header('Access-Control-Allow-Headers', $request->header('Access-Control-Request-Headers'));
             }
         }
+
         return $response;
     }
 }
