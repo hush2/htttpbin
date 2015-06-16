@@ -49,6 +49,7 @@
         <li><a href='/cookies/set?httpbin=oreo'>/cookies/set?httpbin=oreo</a> sets one or more cookie data</li>
         <li><a href='/cookies/delete?httpbin=oreo'>/cookies/delete?httpbin=oreo</a> deletes one or more cookie data</li>
         <li><a href='/basic-auth/user/pass'>/basic-auth/:user/:pass</a> http basic auth</li>
+        <li><a href='/digest-auth/auth/user/pass'>/digest-auth/:qop/:user/:pass</a> http digest auth</li>
     </ul>
 </div>
 

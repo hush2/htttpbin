@@ -169,3 +169,5 @@ $app->get('/basic-auth/{user}/{pass}', function(Request $request, $user, $pass)
     return response(null, 401)
         ->header('WWW-Authenticate', 'Basic realm="Fake Realm"');
 });
+
+$app->get('/digest-auth/{qop}/{user}/{pass}', 'App\Http\Controllers\DigestAuthController@index');
